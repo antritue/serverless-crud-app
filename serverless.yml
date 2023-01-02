@@ -42,6 +42,13 @@ functions:
       - httpApi:
           path: /
           method: get
+  get:
+    handler: src/functions/get.get
+    name: note-app-get
+    events:
+      - httpApi:
+          path: /{noteId}
+          method: get
 
 resources:
   Resources:

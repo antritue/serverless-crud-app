@@ -1,6 +1,7 @@
-const db = require('../utils/db')
 const { ScanCommand } = require("@aws-sdk/client-dynamodb");
 const { unmarshall } = require("@aws-sdk/util-dynamodb");
+
+const db = require('../utils/db')
 
 module.exports.list = async (event) => {
     const response = { statusCode: 200 };
@@ -17,7 +18,7 @@ module.exports.list = async (event) => {
         response.statusCode = 500;
         response.body = JSON.stringify({
             message: "Failed to retrieve posts.",
-            errorMsg: e.message,
+            errorMessage: e.message,
         });
     }
 
