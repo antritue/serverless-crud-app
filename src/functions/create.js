@@ -6,7 +6,7 @@ const db = require('../utils/db')
 const validateNote = require('../utils/validator')
 
 module.exports.create = async (event) => {
-    const response = { statusCode: 200 };
+    const response = { statusCode: 201 };
 
     try {
         const body = JSON.parse(event.body);

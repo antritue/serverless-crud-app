@@ -49,6 +49,13 @@ functions:
       - httpApi:
           path: /{noteId}
           method: get
+  delete:
+    handler: src/functions/delete.delete
+    name: note-app-delete
+    events:
+      - httpApi:
+          path: /{noteId}
+          method: delete
 
 resources:
   Resources:
