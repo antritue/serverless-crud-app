@@ -12,18 +12,23 @@ module.exports.get = async (event) => {
         };
         const { Item } = await db.send(new GetItemCommand(params));
 
-        Item ? response.body = JSON.stringify({
-            message: "Successfully retrieved post.",
-            data: unmarshall(Item)
-        }) :
+        if (Item) {
+            response.body = JSON.stringify({
+                message: "Successfully retrieved note.",
+                data: unmarshall(Item)
+            })
+        } else {
+            response.statusCode = 404;
             response.body = JSON.stringify({
                 message: "ID does not exist."
             });
+        }
+
     } catch (e) {
         console.error(e);
         response.statusCode = 500;
         response.body = JSON.stringify({
-            message: "Failed to get post.",
+            message: "Failed to get note.",
             errorMessage: e.message,
         });
     }

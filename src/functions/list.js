@@ -10,14 +10,14 @@ module.exports.list = async (event) => {
         const { Items } = await db.send(new ScanCommand({ TableName: process.env.TABLE_NAME }));
 
         response.body = JSON.stringify({
-            message: "Successfully retrieved all posts.",
+            message: "Successfully retrieved all notes.",
             data: Items.map((item) => unmarshall(item)),
         });
     } catch (e) {
         console.error(e);
         response.statusCode = 500;
         response.body = JSON.stringify({
-            message: "Failed to retrieve posts.",
+            message: "Failed to retrieve notes.",
             errorMessage: e.message,
         });
     }

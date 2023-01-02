@@ -30,14 +30,14 @@ module.exports.create = async (event) => {
         await db.send(new PutItemCommand(params));
 
         response.body = JSON.stringify({
-            message: "Successfully created item.",
-            item: body,
+            message: "Successfully created note.",
+            data: body,
         });
     } catch (e) {
         console.error(e);
         response.statusCode = 500;
         response.body = JSON.stringify({
-            message: "Failed to create item.",
+            message: "Failed to create note.",
             errorMessage: e.message,
         });
     }
