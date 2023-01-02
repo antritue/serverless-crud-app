@@ -1,14 +1,61 @@
-service: crud-app
+service: serverless-crud-app
 frameworkVersion: '3'
+
+custom:
+  tableName: 'note-table'
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
+  stage: dev
+  region: ap-southeast-1
+  iam:
+    role:
+      statements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DescribeTable
+          - dynamodb:Query
+          - dynamodb:Scan
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          - dynamodb:UpdateItem
+          - dynamodb:DeleteItem
+        Resource:
+          - "Fn::GetAtt": [myTable, Arn]
+
+  environment:
+    TABLE_NAME: ${self:custom.tableName}
 
 functions:
-  hello:
-    handler: handler.hello
+  create:
+    handler: src/functions/create.create
+    name: note-app-create
+    events:
+      - httpApi:
+          path: /
+          method: post
+  list:
+    handler: src/functions/list.list
+    name: note-app-list
     events:
       - httpApi:
           path: /
           method: get
+
+resources:
+  Resources:
+    myTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: noteId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: noteId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
