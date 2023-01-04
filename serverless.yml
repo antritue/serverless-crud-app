@@ -56,6 +56,13 @@ functions:
       - httpApi:
           path: /{noteId}
           method: delete
+  update:
+    handler: src/functions/update.update
+    name: note-app-update
+    events:
+      - httpApi:
+          path: /{noteId}
+          method: put
 
 resources:
   Resources:
